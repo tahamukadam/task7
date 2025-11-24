@@ -15,7 +15,7 @@ async function fetchUsers() {
         displayUsers(allUsers);
     }
     catch (error) {
-        userContainer.innerHTML = `<p style="color:red;">${error}</p>`;
+        userContainer.innerHTML = `<p style="color:red;">${error.message}</p>`;
     }
 }
 
@@ -28,27 +28,51 @@ function displayUsers(users) {
     }
 
     users.forEach(user => {
+        const { name, username, email, phone, website, address, company } = user;
+        const mapsLink = `https://www.google.com/maps?q=${address.geo.lat},${address.geo.lng}`;
+
         const card = document.createElement("div");
         card.classList.add("user-card");
 
         card.innerHTML = `
-            <h3>${user.name}</h3>
-            <p><strong>Email:</strong> ${user.email}</p>
-            <p><strong>City:</strong> ${user.address.city}</p>
+            <h3><i>👤</i>${name}</h3>
+            <p><i>📛</i><strong>Username:</strong> ${username}</p>
+            <p><i>✉️</i><strong>Email:</strong> ${email}</p>
+            <p><i>📞</i><strong>Phone:</strong> ${phone}</p>
+            <p><i>🌐</i><strong>Website:</strong> 
+                <a href="https://${website}" target="_blank">${website}</a></p>
+
+            <p><i>📍</i><strong>Address:</strong><br>
+            ${address.street}, ${address.suite}, ${address.city} - ${address.zipcode} <br>
+            <a href="${mapsLink}" target="_blank">📌 View Location on Maps</a>
+            </p>
+
+            <p><i>🏢</i><strong>Company:</strong> ${company.name}</p>
         `;
+
         userContainer.appendChild(card);
     });
 }
 
-// Search Filter Feature
+// 🔍 Advanced Search (name, email, city, company)
 searchInput.addEventListener("input", () => {
-    const searchValue = searchInput.value.toLowerCase();
+    const value = searchInput.value.toLowerCase();
     const filteredUsers = allUsers.filter(u =>
-        u.name.toLowerCase().includes(searchValue)
+        u.name.toLowerCase().includes(value) ||
+        u.email.toLowerCase().includes(value) ||
+        u.address.city.toLowerCase().includes(value) ||
+        u.company.name.toLowerCase().includes(value)
     );
     displayUsers(filteredUsers);
 });
 
 reloadBtn.addEventListener("click", fetchUsers);
 
+// Initial Load
 fetchUsers();
+// Trigger animation after adding cards
+setTimeout(() => {
+    document.querySelectorAll(".user-card").forEach(card => {
+        card.style.opacity = "1";
+    });
+}, 50);

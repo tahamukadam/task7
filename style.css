@@ -1,13 +1,13 @@
 body {
     font-family: Arial, sans-serif;
-    background: #f0f2f5;
+    background: #e9eef3;
     margin: 0;
     padding: 20px;
     text-align: center;
 }
 
 h2 {
-    color: #333;
+    color: #222;
 }
 
 .top-bar {
@@ -19,18 +19,23 @@ h2 {
 }
 
 input {
-    padding: 10px;
-    width: 250px;
-    border-radius: 5px;
+    padding: 12px;
+    width: 280px;
+    border-radius: 8px;
     border: 1px solid #ccc;
+    outline: none;
+}
+
+input:focus {
+    border-color: #007bff;
 }
 
 button {
-    padding: 10px 20px;
+    padding: 12px 20px;
     border: none;
     background: #007bff;
     color: #fff;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
 }
 
@@ -42,21 +47,68 @@ button:hover {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 15px;
+    gap: 18px;
 }
 
 .user-card {
     background: #fff;
-    width: 280px;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    width: 300px;
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
     text-align: left;
+    transition: transform 0.2s ease;
 }
 
-/* Responsive Design */
+.user-card:hover {
+    transform: translateY(-6px);
+}
+
+.user-card p {
+    margin: 6px 0;
+    color: #333;
+}
+
+.user-card i {
+    margin-right: 6px;
+}
+
+/* Responsive */
 @media (max-width: 600px) {
     .user-card {
-        width: 90%;
+        width: 95%;
     }
+}
+
+/* Animation */
+@keyframes fadeSlideUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Card Styles */
+.user-card {
+    background: #fff;
+    width: 300px;
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: left;
+    animation: fadeSlideUp 0.5s ease forwards;
+    opacity: 0;
+    /* ensures animation starts correctly */
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+/* Hover Animation */
+.user-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
 }
